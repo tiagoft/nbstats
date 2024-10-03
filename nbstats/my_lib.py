@@ -33,10 +33,9 @@ def evaluate_notebook(nb: dict, nb_ref: dict):
     """
     Evaluate a notebook
     """
-    n_copies = nbstats.number_of_copies(nb, nb_ref)
     similarity, mean_code_difference, total_code_difference = nbstats.typical_nonzero_similarity(
         nb, nb_ref)
-    return n_copies, similarity, mean_code_difference, total_code_difference
+    return similarity, mean_code_difference, total_code_difference
 
 
 def evaluate_zipfile(zipfile_path, reference_path):
@@ -46,15 +45,14 @@ def evaluate_zipfile(zipfile_path, reference_path):
     files = check_notebooks_within_zipfile(zipfile_path)
     with open(reference_path, 'r') as file:
         nb_ref = json.load(file)
-        
+
     results = []
     for f in files:
         nb = open_notebook_from_zip(zipfile_path, f)
-        n_copies, similarity, mean_code_difference, total_code_difference = evaluate_notebook(
+        similarity, mean_code_difference, total_code_difference = evaluate_notebook(
             nb, nb_ref)
         this_result = {
             'student_name': get_student_name(f),
-            'n_copies': n_copies,
             'similarity': similarity,
             'mean_code_difference': mean_code_difference,
             'total_code_difference': total_code_difference

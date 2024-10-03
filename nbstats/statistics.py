@@ -2,18 +2,6 @@ import nbstats
 import re
 import numpy as np
 
-def number_of_copies(nb_eval : dict, nb_ref : dict):
-    code_cells_eval = nbstats.extract_code_cells(nb_eval)
-    code_cells_ref = nbstats.extract_code_cells(nb_ref)
-    similarity = 0
-    for cell1 in code_cells_ref:
-        for cell2 in code_cells_eval:
-            c1, c2 = cell1['source'], cell2['source']
-            if c1 == c2:
-                similarity += 1
-                break
-    return similarity
-
 def count_different_lines(code_eval : str, reference_path : str):
     return len([l for l in code_eval if l not in reference_path and not l.startswith('#') and not re.search(r'^#*\s*$', l)])
 
